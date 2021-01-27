@@ -14,37 +14,6 @@ import (
 // The validator instance.
 var validation = validator.New()
 
-// CreatePickup assigns agent and activate orders.
-func CreatePickup(params *CreatePickupParams) (CreatedPickup, error) {
-	return CreatePickupWithContext(context.Background(), params)
-}
-
-// CreatePickupWithContext assigns agent and activate orders with context.
-func CreatePickupWithContext(ctx context.Context, params *CreatePickupParams) (CreatedPickup, error) {
-	var errValidation = validation.Struct(params)
-
-	if errValidation != nil {
-		log.Fatalln(errValidation.Error())
-	}
-
-	var endpoint = shipper.Conf.BaseURL + "/pickup"
-	var responseStruct = CreatedPickup{}
-	var JSONParams, errEncode = json.Marshal(params)
-
-	if errEncode != nil {
-		log.Fatalln(errEncode.Error())
-	}
-
-	var err = shipper.SendRequest(&shipper.RequestParameters{
-		Ctx:            ctx,
-		HTTPMethod:     "POST",
-		Endpoint:       endpoint,
-		AdditionalBody: bytes.NewBuffer(JSONParams),
-	}, &responseStruct)
-
-	return responseStruct, err
-}
-
 // CancelPickup cancel Pickup request.
 func CancelPickup(params *CancelPickupParams) (CancelledPickup, error) {
 	return CancelPickupWithContext(context.Background(), params)
@@ -69,6 +38,37 @@ func CancelPickupWithContext(ctx context.Context, params *CancelPickupParams) (C
 	var err = shipper.SendRequest(&shipper.RequestParameters{
 		Ctx:            ctx,
 		HTTPMethod:     "PUT",
+		Endpoint:       endpoint,
+		AdditionalBody: bytes.NewBuffer(JSONParams),
+	}, &responseStruct)
+
+	return responseStruct, err
+}
+
+// CreatePickup assigns agent and activate orders.
+func CreatePickup(params *CreatePickupParams) (CreatedPickup, error) {
+	return CreatePickupWithContext(context.Background(), params)
+}
+
+// CreatePickupWithContext assigns agent and activate orders with context.
+func CreatePickupWithContext(ctx context.Context, params *CreatePickupParams) (CreatedPickup, error) {
+	var errValidation = validation.Struct(params)
+
+	if errValidation != nil {
+		log.Fatalln(errValidation.Error())
+	}
+
+	var endpoint = shipper.Conf.BaseURL + "/pickup"
+	var responseStruct = CreatedPickup{}
+	var JSONParams, errEncode = json.Marshal(params)
+
+	if errEncode != nil {
+		log.Fatalln(errEncode.Error())
+	}
+
+	var err = shipper.SendRequest(&shipper.RequestParameters{
+		Ctx:            ctx,
+		HTTPMethod:     "POST",
 		Endpoint:       endpoint,
 		AdditionalBody: bytes.NewBuffer(JSONParams),
 	}, &responseStruct)
