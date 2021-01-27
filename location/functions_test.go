@@ -3,7 +3,6 @@ package location
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 	"testing"
@@ -16,7 +15,7 @@ func init() {
 	var err = godotenv.Load("../.env")
 
 	if err != nil {
-		log.Fatal("Error loading .env file.")
+		panic("Error loading .env file.")
 	}
 
 	productionMode, errParse := strconv.ParseBool(os.Getenv("PRODUCTION_MODE"))
@@ -32,7 +31,7 @@ func TestGetCountries(t *testing.T) {
 	countries, err := GetCountries()
 
 	if err != nil {
-		log.Fatal(err)
+		t.Error(err.Error())
 	}
 
 	s, _ := json.MarshalIndent(countries, "", "\t")
@@ -45,7 +44,7 @@ func TestGetProvinces(t *testing.T) {
 	provinces, err := GetProvinces()
 
 	if err != nil {
-		log.Fatal(err)
+		t.Error(err.Error())
 	}
 
 	s, _ := json.MarshalIndent(provinces, "", "\t")
@@ -58,7 +57,7 @@ func TestGetCities(t *testing.T) {
 	cities, err := GetCities(9)
 
 	if err != nil {
-		log.Fatal(err)
+		t.Error(err.Error())
 	}
 
 	s, _ := json.MarshalIndent(cities, "", "\t")
@@ -71,7 +70,7 @@ func TestGetOriginCities(t *testing.T) {
 	cities, err := GetOriginCities()
 
 	if err != nil {
-		log.Fatal(err)
+		t.Error(err.Error())
 	}
 
 	s, _ := json.MarshalIndent(cities, "", "\t")
@@ -84,7 +83,7 @@ func TestGetSuburbs(t *testing.T) {
 	suburbs, err := GetSuburbs(80)
 
 	if err != nil {
-		log.Fatal(err)
+		t.Error(err.Error())
 	}
 
 	s, _ := json.MarshalIndent(suburbs, "", "\t")
@@ -97,7 +96,7 @@ func TestGetAreas(t *testing.T) {
 	areas, err := GetAreas(1330)
 
 	if err != nil {
-		log.Fatal(err)
+		t.Error(err.Error())
 	}
 
 	s, _ := json.MarshalIndent(areas, "", "\t")
@@ -110,7 +109,7 @@ func TestSearchLocations(t *testing.T) {
 	locations, err := SearchLocation("Tirtajaya")
 
 	if err != nil {
-		log.Fatal(err)
+		t.Error(err.Error())
 	}
 
 	s, _ := json.MarshalIndent(locations, "", "\t")

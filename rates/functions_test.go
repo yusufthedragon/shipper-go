@@ -3,7 +3,6 @@ package rates
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 	"testing"
@@ -16,7 +15,7 @@ func init() {
 	var err = godotenv.Load("../.env")
 
 	if err != nil {
-		log.Fatal("Error loading .env file.")
+		panic("Error loading .env file.")
 	}
 
 	productionMode, errParse := strconv.ParseBool(os.Getenv("PRODUCTION_MODE"))
@@ -45,7 +44,7 @@ func TestGetDomesticRates(t *testing.T) {
 	})
 
 	if err != nil {
-		log.Fatal(err)
+		t.Error(err.Error())
 	}
 
 	s, _ := json.MarshalIndent(domesticRates, "", "\t")
@@ -68,7 +67,7 @@ func TestInternationalRates(t *testing.T) {
 	})
 
 	if err != nil {
-		log.Fatal(err)
+		t.Error(err.Error())
 	}
 
 	s, _ := json.MarshalIndent(internationalRates, "", "\t")
