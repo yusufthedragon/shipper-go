@@ -31,7 +31,7 @@ func TestGetAllStatus(t *testing.T) {
 	allStatus, err := GetAllStatus()
 
 	if err != nil {
-		panic(err.Error())
+		t.Error(err.Error())
 	}
 
 	s, _ := json.MarshalIndent(allStatus, "", "\t")
