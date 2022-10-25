@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"log"
 
+	"github.com/denifrahman/shipper-go"
 	"github.com/go-playground/validator/v10"
-	"github.com/yusufthedragon/shipper-go"
 )
 
 // The validator instance.

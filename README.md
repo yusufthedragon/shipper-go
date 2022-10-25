@@ -43,13 +43,13 @@ Unofficial library for access [Shipper](http://shipper.id) API from applications
 Install shipper-go using Go Module by following command:
 
 ```bash
-go get github.com/yusufthedragon/shipper-go
+go get github.com/denifrahman/shipper-go
 ```
 
 Then you import it by following code:
 
 ```go
-import "github.com/yusufthedragon/shipper-go"
+import "github.com/denifrahman/shipper-go"
 ```
 
 ## Usage
@@ -79,7 +79,7 @@ shipper.Conf.SetAPIKey("API_KEY").SetProductionMode(true)
 You need to import `location` package first by following code:
 
 ```go
-import "github.com/yusufthedragon/shipper-go/location"
+import "github.com/denifrahman/shipper-go/location"
 ```
 
 #### Get Countries
@@ -227,7 +227,7 @@ fmt.Printf("Searched Location: %+v\n", searchLocation)
 You need to import `rates` package first by following code:
 
 ```go
-import "github.com/yusufthedragon/shipper-go/rates"
+import "github.com/denifrahman/shipper-go/rates"
 ```
 
 #### Get Domestic Rates
@@ -294,7 +294,7 @@ fmt.Printf("International Rates: %+v\n", internationalRates)
 You need to import `order` package first by following code:
 
 ```go
-import "github.com/yusufthedragon/shipper-go/order"
+import "github.com/denifrahman/shipper-go/order"
 ```
 
 #### Create Domestic Order
@@ -511,7 +511,7 @@ fmt.Printf("Cancel Order: %+v\n", cancelOrder)
 You need to import `pickup` package first by following code:
 
 ```go
-import "github.com/yusufthedragon/shipper-go/pickup"
+import "github.com/denifrahman/shipper-go/pickup"
 ```
 
 #### Create Pickup Request
@@ -587,7 +587,7 @@ fmt.Printf("List Agents: %+v\n", agents)
 You need to import `tracking` package first by following code:
 
 ```go
-import "github.com/yusufthedragon/shipper-go/tracking"
+import "github.com/denifrahman/shipper-go/tracking"
 ```
 
 ```go
@@ -613,7 +613,7 @@ Generate AWB from related logistic, in case that AWB number in order is not gene
 You need to import `awb` package first by following code:
 
 ```go
-import "github.com/yusufthedragon/shipper-go/awb"
+import "github.com/denifrahman/shipper-go/awb"
 ```
 
 ```go
@@ -644,4 +644,4 @@ go test -v ./...
 
 ## Contributing
 
-For any requests, bugs, or comments, please open an [issue](https://github.com/yusufthedragon/shipper-go/issues) or [submit a pull request](https://github.com/yusufthedragon/shipper-go/pulls).
+For any requests, bugs, or comments, please open an [issue](https://github.com/denifrahman/shipper-go/issues) or [submit a pull request](https://github.com/denifrahman/shipper-go/pulls).

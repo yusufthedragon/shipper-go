@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/denifrahman/shipper-go"
 	"github.com/joho/godotenv"
-	"github.com/yusufthedragon/shipper-go"
 )
 
 func init() {
