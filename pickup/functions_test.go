@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/denifrahman/shipper-go"
+	"github.com/denifrahman/shipper-go/order"
 	"github.com/joho/godotenv"
-	"github.com/yusufthedragon/shipper-go"
-	"github.com/yusufthedragon/shipper-go/order"
 )
 
 func init() {

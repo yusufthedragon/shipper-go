@@ -1,4 +1,4 @@
-module github.com/yusufthedragon/shipper-go
+module github.com/denifrahman/shipper-go
 
 go 1.15
 

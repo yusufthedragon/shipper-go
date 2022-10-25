@@ -3,7 +3,7 @@ package tracking
 import (
 	"context"
 
-	"github.com/yusufthedragon/shipper-go"
+	"github.com/denifrahman/shipper-go"
 )
 
 // GetAllStatus gets all Tracking status.

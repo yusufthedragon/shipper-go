@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/yusufthedragon/shipper-go"
+	"github.com/denifrahman/shipper-go"
 )
 
 // GetAreas retrieves areas based on submitted suburb ID.
