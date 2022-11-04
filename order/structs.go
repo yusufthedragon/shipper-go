@@ -61,8 +61,8 @@ type DomesticOrderParams struct {
 	PaymentType           string     `json:"paymentType"`
 	PackageType           int        `json:"packageType" validate:"required"`
 	COD                   int        `json:"cod"`
-	OriginCoordinate      string     `json:"originCoord"`
-	DestinationCoordinate string     `json:"destinationCoord"`
+	OriginCoordinate      *string    `json:"originCoord"`
+	DestinationCoordinate *string    `json:"destinationCoord"`
 }
 
 // InternationalOrder struct contains response from API CreateInternationalOrder.
