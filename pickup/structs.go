@@ -1,5 +1,7 @@
 package pickup
 
+import "time"
+
 // CreatedPickup struct contains response from API CreatePickup.
 type CreatedPickup struct {
 	Status string `json:"status"`
@@ -56,5 +58,20 @@ type Agents struct {
 				Phone string `json:"phone"`
 			} `json:"contact"`
 		} `json:"data"`
+	} `json:"data"`
+}
+
+// TimeSlots struct contains response from API GetPickupTimeSlots.
+type TimeSlots struct {
+	Status string `json:"status"`
+	Data   struct {
+		Title      string `json:"title"`
+		Message    string `json:"message"`
+		StatusCode int    `json:"statusCode"`
+		Timezones  string `json:"timezones"`
+		Data       []struct {
+			StartTime time.Time `json:"startTime"`
+			EndTime   time.Time `json:"endTime"`
+		} `json:"timeSlots"`
 	} `json:"data"`
 }

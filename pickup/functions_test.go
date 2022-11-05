@@ -3,30 +3,28 @@ package pickup
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	"strconv"
 	"testing"
 	"time"
 
 	"github.com/denifrahman/shipper-go"
 	"github.com/denifrahman/shipper-go/order"
-	"github.com/joho/godotenv"
 )
 
 func init() {
-	var err = godotenv.Load("../.env")
+	//var err = godotenv.Load("../.env")
 
-	if err != nil {
-		panic("Error loading .env file.")
-	}
+	//if err != nil {
+	//	panic("Error loading .env file.")
+	//}
 
-	productionMode, errParse := strconv.ParseBool(os.Getenv("PRODUCTION_MODE"))
+	productionMode, errParse := strconv.ParseBool("false")
 
 	if errParse != nil {
 		productionMode = false
 	}
 
-	shipper.Conf.SetAPIKey(os.Getenv("API_KEY")).SetProductionMode(productionMode)
+	shipper.Conf.SetAPIKey("tjHxw6FsElI7gB2mfSfqYBw6a6VDm6KXqYFyXYrNXKI8kOpqwLFyZlVxtggWnGdw").SetProductionMode(productionMode)
 }
 
 func TestCreatePickup(t *testing.T) {
@@ -54,14 +52,12 @@ func TestCreatePickup(t *testing.T) {
 				Value: 100000,
 			},
 		},
-		Contents:              "Barang mudah pecah",
-		UseInsurance:          0,
-		ExternalID:            strconv.FormatInt(time.Now().UTC().UnixNano(), 10),
-		PaymentType:           "cash",
-		PackageType:           1,
-		COD:                   0,
-		OriginCoordinate:      "-6.308033944807303,106.73339847804874",
-		DestinationCoordinate: "49.020733179213,12.114381752908",
+		Contents:     "Barang mudah pecah",
+		UseInsurance: 0,
+		ExternalID:   strconv.FormatInt(time.Now().UTC().UnixNano(), 10),
+		PaymentType:  "cash",
+		PackageType:  1,
+		COD:          0,
 	})
 
 	if err != nil {
@@ -77,7 +73,6 @@ func TestCreatePickup(t *testing.T) {
 	createdPickup, err := CreatePickup(&CreatePickupParams{
 		OrderIDs:   []string{trackingID.Data.ID},
 		DatePickup: "2021-01-23 11:00:00",
-		AgentID:    3538,
 	})
 
 	if err != nil {
@@ -88,6 +83,14 @@ func TestCreatePickup(t *testing.T) {
 
 	fmt.Println("Created Pickup:")
 	fmt.Println(string(s))
+}
+
+func TestGetPickupTimeSlots(t *testing.T) {
+	timeslot, err := GetPickupTimeSlots("Asia/Jakarta")
+	if err != nil {
+		return
+	}
+	fmt.Println(timeslot)
 }
 
 func TestCancelPickup(t *testing.T) {
@@ -115,14 +118,12 @@ func TestCancelPickup(t *testing.T) {
 				Value: 100000,
 			},
 		},
-		Contents:              "Barang mudah pecah",
-		UseInsurance:          0,
-		ExternalID:            strconv.FormatInt(time.Now().UTC().UnixNano(), 10),
-		PaymentType:           "cash",
-		PackageType:           1,
-		COD:                   0,
-		OriginCoordinate:      "-6.308033944807303,106.73339847804874",
-		DestinationCoordinate: "49.020733179213,12.114381752908",
+		Contents:     "Barang mudah pecah",
+		UseInsurance: 0,
+		ExternalID:   strconv.FormatInt(time.Now().UTC().UnixNano(), 10),
+		PaymentType:  "cash",
+		PackageType:  1,
+		COD:          0,
 	})
 
 	if err != nil {

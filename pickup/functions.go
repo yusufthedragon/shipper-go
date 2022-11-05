@@ -97,3 +97,24 @@ func GetAgentsWithContext(ctx context.Context, suburbID int) (Agents, error) {
 
 	return responseStruct, err
 }
+
+// GetPickupTimeSlots gets pickup timeslot.
+func GetPickupTimeSlots(timezone string) (TimeSlots, error) {
+	return GetPickupTimeSlotsWithContext(context.Background(), timezone)
+}
+
+// GetPickupTimeSlotsWithContext gets pickup timeslot.
+func GetPickupTimeSlotsWithContext(ctx context.Context, timezone string) (TimeSlots, error) {
+	var endpoint = shipper.Conf.BaseURL + "/pickup/timeslot"
+	var responseStruct = TimeSlots{}
+
+	var err = shipper.SendRequest(&shipper.RequestParameters{
+		Ctx:        ctx,
+		HTTPMethod: "GET",
+		Endpoint:   endpoint,
+		AdditionalQuery: map[string]interface{}{
+			"timezone": timezone,
+		},
+	}, &responseStruct)
+	return responseStruct, err
+}
