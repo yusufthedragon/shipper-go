@@ -14,7 +14,6 @@ type CreatedPickup struct {
 type CreatePickupParams struct {
 	OrderIDs   []string `json:"orderIds" validate:"required"`
 	DatePickup string   `json:"datePickup" validate:"required"`
-	AgentID    *int     `json:"agentId"`
 }
 
 // CancelledPickup struct contains response from API CancelPickup.
