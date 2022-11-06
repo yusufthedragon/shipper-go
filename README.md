@@ -30,6 +30,7 @@ Unofficial library for access [Shipper](http://shipper.id) API from applications
     - [Create Pickup Request](#create-pickup-request)
     - [Cancel Pickup Request](#cancel-pickup-request)
     - [Get Agents by Suburb](#get-agents-by-suburb)
+    - [Get PickupTimeSlots](#get-pickup-time-slots)
   - [Furthermore](#furthermore)
     - [Get All Tracking Status](#get-all-tracking-status)
     - [Generate AWB Number](#generate-awb-number)
@@ -580,6 +581,25 @@ if err != nil {
 fmt.Printf("List Agents: %+v\n", agents)
 ```
 
+#### Get Pickup Time Slots
+
+Get pickup time slots.
+
+```go
+func GetPickupTimeSlots(t *testing.T)
+```
+
+Usage example:
+
+```go
+	timeslot, err := GetPickupTimeSlots("Asia/Jakarta")
+	if err != nil {
+		return
+	}
+	fmt.Println(timeslot)
+fmt.Printf("List Pickup time slots: %+v\n", timeslot)
+```
+
 ### Furthermore
 
 #### Get All Tracking Status
@@ -600,7 +620,7 @@ Usage example:
 allTrackingStatus, err := tracking.GetAllStatus()
 
 if err != nil {
-    panic(err.Error())
+panic(err.Error())
 }
 
 fmt.Printf("List Tracking Status: %+v\n", allTrackingStatus)
@@ -624,11 +644,11 @@ Usage example:
 
 ```go
 generatedAWB, err := awb.Generate(&awb.GenerateParams{
-    OID: "5f259130a172cf001222f533",
+OID: "5f259130a172cf001222f533",
 })
 
 if err != nil {
-    panic(err.Error())
+panic(err.Error())
 }
 
 fmt.Printf("AWB Number: %+v\n", generatedAWB)
