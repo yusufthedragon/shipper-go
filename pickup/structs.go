@@ -127,15 +127,15 @@ type TimeSlotsV3 struct {
 	Data struct {
 		TimeZone  string `json:"time_zone"`
 		TimeSlots []struct {
-			StartTime time.Time `json:"start_time"`
-			EndTime   time.Time `json:"end_time"`
+			StartTime string `json:"start_time"`
+			EndTime   string `json:"end_time"`
 		} `json:"time_slots"`
 	} `json:"data"`
 }
 
 type DataTimeSlotsV3 struct {
-	StartTime time.Time `json:"startTime"`
-	EndTime   time.Time `json:"endTime"`
+	StartTime string `json:"startTime"`
+	EndTime   string `json:"endTime"`
 }
 
 func (r TimeSlotsV3) ToTimeSlot() TimeSlots {
