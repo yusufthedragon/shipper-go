@@ -61,7 +61,7 @@ func CreatePickupWithContext(ctx context.Context, params *CreatePickupParams) (C
 	var endpoint = shipper.Conf.BaseURL + "/pickup"
 	var responseStruct = CreatePickupV3{}
 	var JSONParams, errEncode = json.Marshal(params.ToCreatePickupParamsV3())
-
+	fmt.Println(string(JSONParams))
 	if errEncode != nil {
 		log.Fatalln(errEncode.Error())
 	}
