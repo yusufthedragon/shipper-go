@@ -29,22 +29,25 @@ func init() {
 
 func TestGetDomesticRates(t *testing.T) {
 	domesticRates, err := GetDomesticRates(&DomesticRatesParams{
-		Origin:                12921,
-		Destination:           4645,
-		Length:                10,
-		Width:                 10,
-		Height:                10,
-		WeightTotal:           0.4,
-		Value:                 70000,
-		Type:                  1,
-		COD:                   1,
-		Order:                 0,
-		OriginCoordinate:      "-6.308033944807303,106.73339847804874",
-		DestinationCoordinate: "49.020733179213,12.114381752908",
+		Origin:         30151,
+		Destination:    30019,
+		Length:         10,
+		Width:          10,
+		Height:         10,
+		WeightTotal:    0.4,
+		Value:          70000,
+		Type:           1,
+		COD:            false,
+		Order:          0,
+		ForOrder:       true,
+		OriginLat:      "-7.2593277",
+		OriginLng:      "112.767352",
+		DestinationLat: "-7.3260971",
+		DestinationLng: "112.8135304",
 	})
 
 	if err != nil {
-		t.Error(err.Error())
+		fmt.Println(err)
 	}
 
 	s, _ := json.MarshalIndent(domesticRates, "", "\t")

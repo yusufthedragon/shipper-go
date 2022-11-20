@@ -80,7 +80,7 @@ func TestGetOriginCities(t *testing.T) {
 }
 
 func TestGetSuburbs(t *testing.T) {
-	suburbs, err := GetSuburbs(80)
+	suburbs, err := GetSuburbs(137)
 
 	if err != nil {
 		t.Error(err.Error())
@@ -93,7 +93,7 @@ func TestGetSuburbs(t *testing.T) {
 }
 
 func TestGetAreas(t *testing.T) {
-	areas, err := GetAreas(1330)
+	areas, err := GetAreas("28306,1330")
 
 	if err != nil {
 		t.Error(err.Error())
@@ -106,10 +106,10 @@ func TestGetAreas(t *testing.T) {
 }
 
 func TestSearchLocations(t *testing.T) {
-	locations, err := SearchLocation("Tirtajaya")
+	locations, err := SearchLocation("Pacar kembang")
 
 	if err != nil {
-		t.Error(err.Error())
+		fmt.Println(err)
 	}
 
 	s, _ := json.MarshalIndent(locations, "", "\t")

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/denifrahman/shipper-go"
@@ -76,10 +77,10 @@ func CreateDomesticOrderWithContext(ctx context.Context, params *DomesticOrderPa
 		log.Fatalln(errValidation.Error())
 	}
 
-	var endpoint = shipper.Conf.BaseURL + "/orders/domestics"
-	var responseStruct = DomesticOrder{}
-	var JSONParams, errEncode = json.Marshal(params)
-
+	var endpoint = shipper.Conf.BaseURL + "/order"
+	var responseStruct = DomesticOrderV3{}
+	var JSONParams, errEncode = json.Marshal(params.ToDomesticOrderParams())
+	fmt.Println(string(JSONParams))
 	if errEncode != nil {
 		log.Fatalln(errEncode.Error())
 	}
@@ -91,7 +92,7 @@ func CreateDomesticOrderWithContext(ctx context.Context, params *DomesticOrderPa
 		AdditionalBody: bytes.NewBuffer(JSONParams),
 	}, &responseStruct)
 
-	return responseStruct, err
+	return responseStruct.ToDomesticOrder(), err
 }
 
 // CreateInternationalOrder creates Shipper international order.
@@ -132,8 +133,8 @@ func GetOrderDetail(orderID string) (DetailOrder, error) {
 
 // GetOrderDetailWithContext gets created order's detail with context.
 func GetOrderDetailWithContext(ctx context.Context, orderID string) (DetailOrder, error) {
-	var endpoint = shipper.Conf.BaseURL + "/orders/" + orderID
-	var responseStruct = DetailOrder{}
+	var endpoint = shipper.Conf.BaseURL + "/order/" + orderID
+	var responseStruct = DetailOrderV3{}
 
 	var err = shipper.SendRequest(&shipper.RequestParameters{
 		Ctx:        ctx,
@@ -141,7 +142,7 @@ func GetOrderDetailWithContext(ctx context.Context, orderID string) (DetailOrder
 		Endpoint:   endpoint,
 	}, &responseStruct)
 
-	return responseStruct, err
+	return responseStruct.ToDetailOrder(), err
 }
 
 // GetTrackingID gets the Tracking ID based on submitted order ID.
@@ -166,33 +167,33 @@ func GetTrackingIDWithContext(ctx context.Context, orderID string) (DomesticOrde
 	return responseStruct, err
 }
 
-// UpdateOrder updates specific created order.
-func UpdateOrder(orderID string, params *UpdateOrderParams) (UpdatedOrder, error) {
-	return UpdateOrderWithContext(context.Background(), orderID, params)
-}
-
-// UpdateOrderWithContext updates specific created order with context.
-func UpdateOrderWithContext(ctx context.Context, orderID string, params *UpdateOrderParams) (UpdatedOrder, error) {
-	var errValidation = validation.Struct(params)
-
-	if errValidation != nil {
-		log.Fatalln(errValidation.Error())
-	}
-
-	var endpoint = shipper.Conf.BaseURL + "/orders/" + orderID
-	var responseStruct = UpdatedOrder{}
-	var JSONParams, errEncode = json.Marshal(params)
-
-	if errEncode != nil {
-		log.Fatalln(errEncode.Error())
-	}
-
-	var err = shipper.SendRequest(&shipper.RequestParameters{
-		Ctx:            ctx,
-		HTTPMethod:     "PUT",
-		Endpoint:       endpoint,
-		AdditionalBody: bytes.NewBuffer(JSONParams),
-	}, &responseStruct)
-
-	return responseStruct, err
-}
+//// UpdateOrder updates specific created order.
+//func UpdateOrder(orderID string, params *UpdateOrderParams) (UpdatedOrder, error) {
+//	return UpdateOrderWithContext(context.Background(), orderID, params)
+//}
+//
+//// UpdateOrderWithContext updates specific created order with context.
+//func UpdateOrderWithContext(ctx context.Context, orderID string, params *UpdateOrderParams) (UpdatedOrder, error) {
+//	var errValidation = validation.Struct(params)
+//
+//	if errValidation != nil {
+//		log.Fatalln(errValidation.Error())
+//	}
+//
+//	var endpoint = shipper.Conf.BaseURL + "/orders/" + orderID
+//	var responseStruct = UpdatedOrder{}
+//	var JSONParams, errEncode = json.Marshal(params)
+//
+//	if errEncode != nil {
+//		log.Fatalln(errEncode.Error())
+//	}
+//
+//	var err = shipper.SendRequest(&shipper.RequestParameters{
+//		Ctx:            ctx,
+//		HTTPMethod:     "PUT",
+//		Endpoint:       endpoint,
+//		AdditionalBody: bytes.NewBuffer(JSONParams),
+//	}, &responseStruct)
+//
+//	return responseStruct, err
+//}

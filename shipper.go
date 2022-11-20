@@ -8,7 +8,7 @@ type Configuration struct {
 
 // Conf is instance of Configuration struct.
 var Conf = Configuration{
-	BaseURL: "https://api.sandbox.shipper.id/public/v1",
+	BaseURL: "https://merchant-api-sandbox.shipper.id/v3",
 }
 
 // SetAPIKey sets the API Key for API Call.

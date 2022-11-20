@@ -31,6 +31,7 @@ func SendRequest(request *RequestParameters, response interface{}) error {
 	// Set the request headers
 	req.Header.Set("User-Agent", "Shipper/")
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("X-API-Key", Conf.APIKey)
 
 	// Set the request queries
 	setQueries(req, request.AdditionalQuery)

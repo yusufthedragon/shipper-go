@@ -29,6 +29,8 @@ func init() {
 }
 
 // CreateDomesticOrderParams is parameter for create domestic order in entire test.
+var originCoordinate = "-6.308033944807303,106.73339847804874"
+var destinationCoordinate = "49.020733179213,12.114381752908"
 var CreateDomesticOrderParams = &DomesticOrderParams{
 	Origin:               12921,
 	Destination:          4645,
@@ -54,13 +56,13 @@ var CreateDomesticOrderParams = &DomesticOrderParams{
 		},
 	},
 	Contents:              "Barang mudah pecah",
-	UseInsurance:          0,
+	UseInsurance:          true,
 	ExternalID:            strconv.FormatInt(time.Now().UTC().UnixNano(), 10),
 	PaymentType:           "cash",
 	PackageType:           1,
-	COD:                   0,
-	OriginCoordinate:      "-6.308033944807303,106.73339847804874",
-	DestinationCoordinate: "49.020733179213,12.114381752908",
+	COD:                   false,
+	OriginCoordinate:      &originCoordinate,
+	DestinationCoordinate: &destinationCoordinate,
 }
 
 func TestCreateDomesticOrder(t *testing.T) {
@@ -107,7 +109,7 @@ func TestCreateInternationalOrder(t *testing.T) {
 			},
 		},
 		Contents:     "Barang mudah pecah",
-		UseInsurance: 0,
+		UseInsurance: false,
 		PackageType:  2,
 		PaymentType:  "cash",
 		ExternalID:   strconv.FormatInt(time.Now().UTC().UnixNano(), 10),
@@ -144,29 +146,29 @@ func TestActivateOrder(t *testing.T) {
 	fmt.Println(string(s))
 }
 
-func TestUpdateOrder(t *testing.T) {
-	domesticOrder, err := CreateDomesticOrder(CreateDomesticOrderParams)
-
-	if err != nil {
-		t.Error(err.Error())
-	}
-
-	updateOrder, err := UpdateOrder(domesticOrder.Data.ID, &UpdateOrderParams{
-		Length:      5,
-		Width:       5,
-		Height:      5,
-		WeightTotal: 1,
-	})
-
-	if err != nil {
-		t.Error(err.Error())
-	}
-
-	s, _ := json.MarshalIndent(updateOrder, "", "\t")
-
-	fmt.Println("Updated Order:")
-	fmt.Println(string(s))
-}
+//func TestUpdateOrder(t *testing.T) {
+//	domesticOrder, err := CreateDomesticOrder(CreateDomesticOrderParams)
+//
+//	if err != nil {
+//		t.Error(err.Error())
+//	}
+//
+//	updateOrder, err := UpdateOrder(domesticOrder.Data.ID, &UpdateOrderParams{
+//		Length:      5,
+//		Width:       5,
+//		Height:      5,
+//		WeightTotal: 1,
+//	})
+//
+//	if err != nil {
+//		t.Error(err.Error())
+//	}
+//
+//	s, _ := json.MarshalIndent(updateOrder, "", "\t")
+//
+//	fmt.Println("Updated Order:")
+//	fmt.Println(string(s))
+//}
 
 func TestCancelOrder(t *testing.T) {
 	domesticOrder, err := CreateDomesticOrder(CreateDomesticOrderParams)
@@ -207,13 +209,13 @@ func TestGetTrackingID(t *testing.T) {
 }
 
 func TestGetOrderDetail(t *testing.T) {
-	domesticOrder, err := CreateDomesticOrder(CreateDomesticOrderParams)
+	//domesticOrder, err := CreateDomesticOrder(CreateDomesticOrderParams)
+	//
+	//if err != nil {
+	//	t.Error(err.Error())
+	//}
 
-	if err != nil {
-		t.Error(err.Error())
-	}
-
-	detailOrder, err := GetOrderDetail(domesticOrder.Data.ID)
+	detailOrder, err := GetOrderDetail("22BW62DM62Y5E")
 
 	if err != nil {
 		t.Error(err.Error())

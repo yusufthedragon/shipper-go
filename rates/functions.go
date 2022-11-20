@@ -1,6 +1,7 @@
 package rates
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"log"
@@ -25,21 +26,19 @@ func GetDomesticRatesWithContext(ctx context.Context, params *DomesticRatesParam
 		log.Fatalln(errValidation.Error())
 	}
 
-	var endpoint = shipper.Conf.BaseURL + "/domesticRates"
-	var responseStruct = DomesticRates{}
+	var endpoint = shipper.Conf.BaseURL + "/pricing/domestic"
+	var responseStruct = DomesticRatesV3{}
 	var additionalQueries map[string]interface{}
 
-	tempJSON, _ := json.Marshal(params)
+	tempJSON, _ := json.Marshal(params.ToDomesticRatesParamsV3())
 	json.Unmarshal(tempJSON, &additionalQueries)
-
 	var err = shipper.SendRequest(&shipper.RequestParameters{
-		Ctx:             ctx,
-		HTTPMethod:      "GET",
-		Endpoint:        endpoint,
-		AdditionalQuery: additionalQueries,
+		Ctx:            ctx,
+		HTTPMethod:     "POST",
+		Endpoint:       endpoint,
+		AdditionalBody: bytes.NewBuffer(tempJSON),
 	}, &responseStruct)
-
-	return responseStruct, err
+	return responseStruct.ToDomesticRates(), err
 }
 
 // GetInternationalRates gets available rates based on origin and destination country.

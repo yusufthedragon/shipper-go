@@ -37,7 +37,7 @@ func CancelPickupWithContext(ctx context.Context, params *CancelPickupParams) (C
 
 	var err = shipper.SendRequest(&shipper.RequestParameters{
 		Ctx:            ctx,
-		HTTPMethod:     "PUT",
+		HTTPMethod:     "PATCH",
 		Endpoint:       endpoint,
 		AdditionalBody: bytes.NewBuffer(JSONParams),
 	}, &responseStruct)
@@ -46,12 +46,12 @@ func CancelPickupWithContext(ctx context.Context, params *CancelPickupParams) (C
 }
 
 // CreatePickup assigns agent and activate orders.
-func CreatePickup(params *CreatePickupParams) (CreatedPickup, error) {
+func CreatePickup(params *CreatePickupParams) (CreatePickupV3, error) {
 	return CreatePickupWithContext(context.Background(), params)
 }
 
 // CreatePickupWithContext assigns agent and activate orders with context.
-func CreatePickupWithContext(ctx context.Context, params *CreatePickupParams) (CreatedPickup, error) {
+func CreatePickupWithContext(ctx context.Context, params *CreatePickupParams) (CreatePickupV3, error) {
 	var errValidation = validation.Struct(params)
 
 	if errValidation != nil {
@@ -59,8 +59,8 @@ func CreatePickupWithContext(ctx context.Context, params *CreatePickupParams) (C
 	}
 
 	var endpoint = shipper.Conf.BaseURL + "/pickup"
-	var responseStruct = CreatedPickup{}
-	var JSONParams, errEncode = json.Marshal(params)
+	var responseStruct = CreatePickupV3{}
+	var JSONParams, errEncode = json.Marshal(params.ToCreatePickupParamsV3())
 
 	if errEncode != nil {
 		log.Fatalln(errEncode.Error())
@@ -106,15 +106,15 @@ func GetPickupTimeSlots(timezone string) (TimeSlots, error) {
 // GetPickupTimeSlotsWithContext gets pickup timeslot.
 func GetPickupTimeSlotsWithContext(ctx context.Context, timezone string) (TimeSlots, error) {
 	var endpoint = shipper.Conf.BaseURL + "/pickup/timeslot"
-	var responseStruct = TimeSlots{}
+	var responseStruct = TimeSlotsV3{}
 
 	var err = shipper.SendRequest(&shipper.RequestParameters{
 		Ctx:        ctx,
 		HTTPMethod: "GET",
 		Endpoint:   endpoint,
 		AdditionalQuery: map[string]interface{}{
-			"timezone": timezone,
+			"time_zone": timezone,
 		},
 	}, &responseStruct)
-	return responseStruct, err
+	return responseStruct.ToTimeSlot(), err
 }

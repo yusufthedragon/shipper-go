@@ -8,25 +8,25 @@ import (
 )
 
 // GetAreas retrieves areas based on submitted suburb ID.
-func GetAreas(suburbID int) (Areas, error) {
-	return GetAreasWithContext(context.Background(), suburbID)
+func GetAreas(areaIDS string) (Areas, error) {
+	return GetAreasWithContext(context.Background(), areaIDS)
 }
 
 // GetAreasWithContext retrieves areas based on submitted suburb ID.
-func GetAreasWithContext(ctx context.Context, suburbID int) (Areas, error) {
-	var endpoint = shipper.Conf.BaseURL + "/areas"
-	var responseStruct = Areas{}
+func GetAreasWithContext(ctx context.Context, areaIDS string) (Areas, error) {
+	var endpoint = shipper.Conf.BaseURL + "/location/areas"
+	var responseStruct = AreasV3{}
 
 	var err = shipper.SendRequest(&shipper.RequestParameters{
 		Ctx:        ctx,
 		HTTPMethod: "GET",
 		Endpoint:   endpoint,
 		AdditionalQuery: map[string]interface{}{
-			"suburb": fmt.Sprint(suburbID),
+			"area_ids": fmt.Sprint(areaIDS),
 		},
 	}, &responseStruct)
 
-	return responseStruct, err
+	return responseStruct.ToAreas(), err
 }
 
 // GetCities retrieves cities based on province ID.
@@ -36,19 +36,19 @@ func GetCities(provinceID int) (Cities, error) {
 
 // GetCitiesWithContext retrieves cities based on province ID with context.
 func GetCitiesWithContext(ctx context.Context, provinceID int) (Cities, error) {
-	var endpoint = shipper.Conf.BaseURL + "/cities"
-	var responseStruct = Cities{}
+	var endpoint = shipper.Conf.BaseURL + "/location/cities"
+	var responseStruct = CitiesV3{}
 
 	var err = shipper.SendRequest(&shipper.RequestParameters{
 		Ctx:        ctx,
 		HTTPMethod: "GET",
 		Endpoint:   endpoint,
 		AdditionalQuery: map[string]interface{}{
-			"province": fmt.Sprint(provinceID),
+			"province_id": fmt.Sprint(provinceID),
 		},
 	}, &responseStruct)
 
-	return responseStruct, err
+	return responseStruct.ToCities(), err
 }
 
 // GetCountries retrieves country data in a list.
@@ -58,8 +58,8 @@ func GetCountries() (Countries, error) {
 
 // GetCountriesWithContext retrieves country data in a list with context.
 func GetCountriesWithContext(ctx context.Context) (Countries, error) {
-	var endpoint = shipper.Conf.BaseURL + "/countries"
-	var responseStruct = Countries{}
+	var endpoint = shipper.Conf.BaseURL + "/location/countries"
+	var responseStruct = CountriesV3{}
 
 	var err = shipper.SendRequest(&shipper.RequestParameters{
 		Ctx:        ctx,
@@ -67,7 +67,7 @@ func GetCountriesWithContext(ctx context.Context) (Countries, error) {
 		Endpoint:   endpoint,
 	}, &responseStruct)
 
-	return responseStruct, err
+	return responseStruct.ToCountries(), err
 }
 
 // GetOriginCities retrieves provinces in which Shipper provides pickup service.
@@ -77,7 +77,7 @@ func GetOriginCities() (Cities, error) {
 
 // GetOriginCitiesWithContext retrieves provinces in which Shipper provides pickup service with context.
 func GetOriginCitiesWithContext(ctx context.Context) (Cities, error) {
-	var endpoint = shipper.Conf.BaseURL + "/cities"
+	var endpoint = shipper.Conf.BaseURL + "/location/cities"
 	var responseStruct = Cities{}
 
 	var err = shipper.SendRequest(&shipper.RequestParameters{
@@ -99,8 +99,8 @@ func GetProvinces() (Provinces, error) {
 
 // GetProvincesWithContext retrieves all provinces in Indonesia in a list with context.
 func GetProvincesWithContext(ctx context.Context) (Provinces, error) {
-	var endpoint = shipper.Conf.BaseURL + "/provinces"
-	var responseStruct = Provinces{}
+	var endpoint = shipper.Conf.BaseURL + "/location/provinces"
+	var responseStruct = ProvincesV3{}
 
 	var err = shipper.SendRequest(&shipper.RequestParameters{
 		Ctx:            ctx,
@@ -109,7 +109,7 @@ func GetProvincesWithContext(ctx context.Context) (Provinces, error) {
 		AdditionalBody: nil,
 	}, &responseStruct)
 
-	return responseStruct, err
+	return responseStruct.ToProvince(), err
 }
 
 // GetSuburbs retrieves suburbs based on submitted city ID.
@@ -119,36 +119,36 @@ func GetSuburbs(cityID int) (Suburbs, error) {
 
 // GetSuburbsWithContext retrieves suburbs based on submitted city ID with context.
 func GetSuburbsWithContext(ctx context.Context, cityID int) (Suburbs, error) {
-	var endpoint = shipper.Conf.BaseURL + "/suburbs"
-	var responseStruct = Suburbs{}
+	var endpoint = shipper.Conf.BaseURL + "/location/city/" + fmt.Sprint(cityID) + "/suburbs"
+	var responseStruct = SuburbsV3{}
 
 	var err = shipper.SendRequest(&shipper.RequestParameters{
 		Ctx:        ctx,
 		HTTPMethod: "GET",
 		Endpoint:   endpoint,
-		AdditionalQuery: map[string]interface{}{
-			"city": fmt.Sprint(cityID),
-		},
 	}, &responseStruct)
 
-	return responseStruct, err
+	return responseStruct.ToSuburbs(), err
 }
 
 // SearchLocation retrieves every area, suburb, and city whose names include the submitted substring (including postcode).
-func SearchLocation(substring string) (Locations, error) {
-	return SearchLocationWithContext(context.Background(), substring)
+func SearchLocation(keyword string) (Locations, error) {
+	return SearchLocationWithContext(context.Background(), keyword)
 }
 
 // SearchLocationWithContext retrieves every area, suburb, and city whose names include the submitted substring (including postcode) with context.
-func SearchLocationWithContext(ctx context.Context, substring string) (Locations, error) {
-	var endpoint = shipper.Conf.BaseURL + "/details/" + substring
-	var responseStruct = Locations{}
+func SearchLocationWithContext(ctx context.Context, keyword string) (Locations, error) {
+	var endpoint = shipper.Conf.BaseURL + "/location"
+	var responseStruct = LocationsV3{}
 
 	var err = shipper.SendRequest(&shipper.RequestParameters{
 		Ctx:        ctx,
 		HTTPMethod: "GET",
-		Endpoint:   endpoint,
+		AdditionalQuery: map[string]interface{}{
+			"keyword": keyword,
+		},
+		Endpoint: endpoint,
 	}, &responseStruct)
 
-	return responseStruct, err
+	return responseStruct.ToLocations(), err
 }

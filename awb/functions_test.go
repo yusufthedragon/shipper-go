@@ -31,7 +31,8 @@ func init() {
 
 func TestGenerateAWB(t *testing.T) {
 	externalID := strconv.FormatInt(time.Now().UTC().UnixNano(), 10)
-
+	origin := "-6.308033944807303,106.73339847804874"
+	destination := "49.020733179213,12.114381752908"
 	domesticOrder, err := order.CreateDomesticOrder(&order.DomesticOrderParams{
 		Origin:               12921,
 		Destination:          4645,
@@ -57,13 +58,13 @@ func TestGenerateAWB(t *testing.T) {
 			},
 		},
 		Contents:              "Barang mudah pecah",
-		UseInsurance:          0,
+		UseInsurance:          false,
 		ExternalID:            externalID,
 		PaymentType:           "cash",
 		PackageType:           1,
-		COD:                   0,
-		OriginCoordinate:      "-6.308033944807303,106.73339847804874",
-		DestinationCoordinate: "49.020733179213,12.114381752908",
+		COD:                   false,
+		OriginCoordinate:      &origin,
+		DestinationCoordinate: &destination,
 	})
 
 	if err != nil {
